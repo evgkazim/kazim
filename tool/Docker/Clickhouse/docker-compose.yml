@@ -1,0 +1,13 @@
+version: '3.2'
+
+services:
+  clickhouse:
+    image: flexberry/clickhouse-official
+    ports:
+      - 8123:8123
+      - 9010:9000
+    volumes:
+      - clickhousedb:/var/lib/clickhouse
+      
+volumes:
+  clickhousedb:
