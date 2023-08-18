@@ -1,0 +1,53 @@
+DOCKERHUB_HOST = 'dockerhub.sib.rual.ru'
+DOCKERHUB_PROJECT = 'gou_project'
+DOCKERHUB_REPOSITORY = 'gou_equ'
+DOCKERHUB_LOGIN = 'kraz-as-etcauth'
+DOCKERHUB_PASSWORD = '1qaz!QAZ'
+DEPLOY_FILE = 'deployment/k8s-nkaz.yml'
+
+pipeline {
+    agent { label 'kraz-s-dockdev01' }
+    stages {
+        stage ('Set env') {
+            steps {
+                script {
+                    env.KUBECONFIG = "/home/jenkins/k8s/nkaz/nkaz-k8s-01-jenkins-kubeconfig.yaml"
+                    env.IMAGE_NAME = "${DOCKERHUB_HOST}/${DOCKERHUB_PROJECT}/${DOCKERHUB_REPOSITORY}:${env.BUILD_ID}"
+                }
+            }
+        }
+        stage("Build") {
+            steps {
+                script {
+        			sh "chmod 777 gradlew"
+	                sh "./gradlew assemble -Dhttp.proxyHost=10.12.21.106 -Dhttp.proxyPort=3128 --info"
+	                sh "docker build -t ${DOCKERHUB_REPOSITORY} ."
+                }
+            }
+        }
+        stage("Push") {
+            steps {
+                script {
+                    sh "docker login ${DOCKERHUB_HOST} -u ${DOCKERHUB_LOGIN} -p ${DOCKERHUB_PASSWORD}"
+                    sh "docker tag ${DOCKERHUB_REPOSITORY} ${env.IMAGE_NAME}"
+                    sh "docker push ${env.IMAGE_NAME}"
+                }
+            }
+        }
+        stage("Deploy") {
+            steps {
+                script {
+                    sh "ls -la"
+			sh "cat ${DEPLOY_FILE} | envsubst | kubectl apply -f -"
+                }
+            }
+        }
+        stage('Clean') {
+            steps {
+                script {
+                    sh "docker rmi ${env.IMAGE_NAME}"
+                }
+            }
+        }
+    }
+}
