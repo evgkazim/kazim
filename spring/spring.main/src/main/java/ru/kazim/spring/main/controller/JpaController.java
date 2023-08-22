@@ -1,25 +1,24 @@
 package ru.kazim.spring.main.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import ru.kazim.spring.main.entity2.FlightsEntity;
+import ru.kazim.spring.main.repository.FlightsRepository;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping(path = "/jpa", produces = "application/json")
+@RequiredArgsConstructor
 public class JpaController {
-    @PostMapping(path = "/user")
-    public Object create() {
-        return null;
-    }
-    @GetMapping(path = "/users/{id}")
+
+    private final FlightsRepository flightsRepository;
+
+    @GetMapping(path = "/flights")
     public Object read(@PathVariable(required = false) String id) {
-        System.out.println(id);
-        return null;
-    }
-    @PutMapping(path = "/user")
-    public Object update() {
-        return null;
-    }
-    @DeleteMapping(path = "/user/{id}")
-    public Object delete() {
-        return null;
+        return flightsRepository.findAll().stream().filter(x -> x.getFlight_no().equals("PG0405")).collect(Collectors.toList());
+//        flightsRepository.findAll().stream().parallel().
     }
 }

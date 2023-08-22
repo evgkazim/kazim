@@ -10,6 +10,7 @@
     <modules>
 		<module>java</module>
 		<module>spring</module>
+		<module>spring/spring.rest</module>
 	</modules>
     <properties>
 		<java.version>17</java.version>
