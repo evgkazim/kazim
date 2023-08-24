@@ -16,6 +16,8 @@
   <modules>
     <module>spring.admin</module>
     <module>spring.main</module>
+    <module>spring.rest</module>
+    <module>spring.data.jpa</module>
   </modules>
   <properties>
     <java.version>17</java.version>
