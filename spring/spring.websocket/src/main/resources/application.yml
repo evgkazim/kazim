@@ -1,0 +1,15 @@
+server.port: 9000
+
+spring:
+  profiles.active: dev
+
+---
+spring:
+  config.activate.on-profile: dev
+  websocket:
+    endpoint: "/ws"
+    prefix: "/app"
+    topic: "/topic"
+logging:
+  level:
+    root: DEBUG

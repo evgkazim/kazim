@@ -1,0 +1,11 @@
+package ru.kazim.spring.kafka;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class ApplicationApp {
+    public static void main(String[] args) {
+        SpringApplication.run(ApplicationApp.class);
+    }
+}

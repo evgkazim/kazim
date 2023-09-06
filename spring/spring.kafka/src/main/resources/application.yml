@@ -1,0 +1,6 @@
+server.port: 9000
+
+spring:
+  kafka:
+    bootstrap-servers: 172.27.201.45:29092
+    consumer.group-id: kazim.kafka.producer
