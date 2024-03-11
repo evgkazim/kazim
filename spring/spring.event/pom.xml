@@ -10,4 +10,18 @@
     <groupId>ru.kazim.spring</groupId>
     <artifactId>spring.event</artifactId>
     <version>1.0</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>10.9.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-maven-plugin</artifactId>
+            <version>10.9.1</version>
+        </dependency>
+
+    </dependencies>
 </project>
