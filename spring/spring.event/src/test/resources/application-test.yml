@@ -1,0 +1,13 @@
+server.port: 9000
+
+jdbc:
+  driver:
+    class:
+      name: org.postgresql.Driver
+  url: jdbc:postgresql://${POSTGRES_HOST:}:${POSTGRES_PORT:}/test?currentSchema=test
+  user: ${POSTGRES_USERNAME:}
+  password: ${POSTGRES_PASSWORD:}
+
+#logging:
+#  level:
+#    root: DEBUG

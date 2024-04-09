@@ -1,5 +1,9 @@
 package ru.kazim.spring.event.postgres;
 
+import com.github.dockerjava.api.model.ExposedPort;
+import com.github.dockerjava.api.model.HostConfig;
+import com.github.dockerjava.api.model.PortBinding;
+import com.github.dockerjava.api.model.Ports;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -14,7 +18,8 @@ public class PostgresInitializer implements ApplicationContextInitializer<Config
     public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
         if (PostgresInitializer.postgresContainer == null) {
             PostgresInitializer.postgresContainer = new PostgreSQLContainer<>("postgres:14.2")
-                .withDatabaseName("test");
+                .withDatabaseName("test")
+                .withCreateContainerCmdModifier(cmd -> cmd.withHostConfig(new HostConfig().withPortBindings(new PortBinding(Ports.Binding.bindPort(15432), new ExposedPort(5432)))));
             PostgresInitializer.postgresContainer.start();
         }
         System.setProperty("POSTGRES_HOST", PostgresInitializer.postgresContainer.getHost());
@@ -26,5 +31,5 @@ public class PostgresInitializer implements ApplicationContextInitializer<Config
             PostgresInitializer.postgresContainer.getPassword(),
             PostgresInitializer.postgresContainer.getHost(),
             PostgresInitializer.postgresContainer.getMappedPort(POSTGRESQL_PORT).toString());
-    }
+}
 }

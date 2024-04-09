@@ -1,5 +1,13 @@
 server.port: 9000
 
+jdbc:
+  driver:
+    class:
+      name: org.postgresql.Driver
+  url: jdbc:postgresql://localhost:5432/test?currentSchema=test
+  user: iplatform
+  password: password
+
 #logging:
 #  level:
 #    root: DEBUG
